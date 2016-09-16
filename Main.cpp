@@ -1,9 +1,6 @@
 //------------------------------------------------------------------------------
 /// @file
-/// @brief    ƒƒCƒ“
-/// @author   –î“`ãÄ•½
-///
-/// @copyright  Copyright 2016 –î“`ãÄ•½
+/// @brief    ãƒ¡ã‚¤ãƒ³
 
 //------------------------------------------------------------------------------
 
@@ -21,36 +18,36 @@ static int FPS_60		= 1000 / 60;
 static bool isFullSc	= false;
 static bool isPlay		= true;
 
-// @brief		‰æ–Êİ’è‚ÉŠÖ‚µ‚Ä‚Ì¿–â
-// @attention	ƒLƒƒƒ“ƒZƒ‹‚ÅƒEƒBƒ“ƒhƒEƒ‚[ƒh‚Ì‚Ü‚Ü
+// @brief		ç”»é¢è¨­å®šã«é–¢ã—ã¦ã®è³ªå•
+// @attention	ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã§ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¢ãƒ¼ãƒ‰ã®ã¾ã¾
 static void message_box();
 
-// @brief	60fps‚ğ•Û‚½‚¹‚éˆ—
+// @brief	60fpsã‚’ä¿ãŸã›ã‚‹å‡¦ç†
 static void FPSMng();
 
-// @brief	ƒEƒBƒ“ƒhƒE‰Šúİ’è
+// @brief	ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦åˆæœŸè¨­å®š
 static void Initialize();
 
-// @brief	‚¢‚Â‚Å‚àó‚¯•t‚¯‚éİ’è
+// @brief	ã„ã¤ã§ã‚‚å—ã‘ä»˜ã‘ã‚‹è¨­å®š
 static void DynamicConfig();
 
 
-// ƒvƒƒOƒ‰ƒ€‚Í WinMain ‚©‚çn‚Ü‚è‚Ü‚·
+// ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã¯ WinMain ã‹ã‚‰å§‹ã¾ã‚Šã¾ã™
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	Initialize();
 	std::unique_ptr<SceneMng>	sceneMng(new SceneMng);
 
-	// ƒQ[ƒ€--------------------------------------------------------------------------------------
+	// ã‚²ãƒ¼ãƒ --------------------------------------------------------------------------------------
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0 && isPlay)
 	{
 		FPSMng();
-		Keyboard_Update();										// ƒL[“ü—Íó‹µXV
+		Keyboard_Update();										// ã‚­ãƒ¼å…¥åŠ›çŠ¶æ³æ›´æ–°
 		DynamicConfig();
 		sceneMng->Update();
 		sceneMng->Draw();
 	}
-	DxLib_End();												// ‚c‚wƒ‰ƒCƒuƒ‰ƒŠg—p‚ÌI—¹ˆ—
+	DxLib_End();												// ï¼¤ï¼¸ãƒ©ã‚¤ãƒ–ãƒ©ãƒªä½¿ç”¨ã®çµ‚äº†å‡¦ç†
 	return 0;
 }
 
@@ -61,45 +58,45 @@ void message_box()
 
 	flag = MessageBox(
 		NULL,
-		TEXT("ƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚Å‹N“®‚µ‚Ü‚·‚©H\niF5‚Å‚¢‚Â‚Å‚à•ÏX‰Â”\‚Å‚·Bj"),
-		TEXT("ƒXƒNƒŠ[ƒ“İ’è"),
+		TEXT("ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ãƒ¢ãƒ¼ãƒ‰ã§èµ·å‹•ã—ã¾ã™ã‹ï¼Ÿ\nï¼ˆF5ã§ã„ã¤ã§ã‚‚å¤‰æ›´å¯èƒ½ã§ã™ã€‚ï¼‰"),
+		TEXT("ã‚¹ã‚¯ãƒªãƒ¼ãƒ³è¨­å®š"),
 		MB_YESNOCANCEL | MB_ICONQUESTION);
 
 	if (flag == IDNO)
 	{
 		isFullSc = true;
-		//		SetUseBackBufferTransColorFlag(true); // ‘S•”“§–¾‰»ƒtƒ‰ƒO
+		//		SetUseBackBufferTransColorFlag(true); // å…¨éƒ¨é€æ˜åŒ–ãƒ•ãƒ©ã‚°
 	}
 }
 
 
 void FPSMng()
 {
-	while (GetNowCount() - FrameStartTime < FPS_60) {}		// 1/60 •b‚Ü‚Å‘Ò‚Â
-	FrameStartTime = GetNowCount();							// Œ»İ‚ÌƒJƒEƒ“ƒg‚ğ•Û‘¶
+	while (GetNowCount() - FrameStartTime < FPS_60) {}		// 1/60 ç§’ã¾ã§å¾…ã¤
+	FrameStartTime = GetNowCount();							// ç¾åœ¨ã®ã‚«ã‚¦ãƒ³ãƒˆã‚’ä¿å­˜
 }
 
 
 void Initialize()
 {
 	message_box();
-	SetGraphMode(640, 480, 32), ChangeWindowMode(isFullSc), DxLib_Init();						// ƒEƒBƒ“ƒhƒE‰Šúİ’è(VGA),DxLib‹N“®
-	SetDrawScreen(DX_SCREEN_BACK);																// — ‰æ–Êˆ—
-	SetMainWindowText("‰‰K");																	// ƒ^ƒCƒgƒ‹‚ğİ’è
-	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);											// ‰æ–Êƒ‚[ƒh•ÏXŒãA‘fŞƒƒ‚ƒŠ‚ğƒŠƒZƒbƒg‚µ‚È‚¢
-	SetEmulation320x240(TRUE);																	// 320x240‚Ì‰ğ‘œ“x‚É‚·‚é
-	SetWaitVSyncFlag(FALSE);																	// ‚’¼“¯ŠúM†‚ğ‘Ò‚½‚È‚¢
-	FrameStartTime = GetNowCount();																// ŠJnŠÔ‚ğİ’è
-	SRand((unsigned)time(NULL));																// —”ƒV[ƒh
+	SetGraphMode(640, 480, 32), ChangeWindowMode(isFullSc), DxLib_Init();						// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦åˆæœŸè¨­å®š(VGA),DxLibèµ·å‹•
+	SetDrawScreen(DX_SCREEN_BACK);																// è£ç”»é¢å‡¦ç†
+	SetMainWindowText("æ¼”ç¿’");																	// ã‚¿ã‚¤ãƒˆãƒ«ã‚’è¨­å®š
+	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);											// ç”»é¢ãƒ¢ãƒ¼ãƒ‰å¤‰æ›´å¾Œã€ç´ æãƒ¡ãƒ¢ãƒªã‚’ãƒªã‚»ãƒƒãƒˆã—ãªã„
+	SetEmulation320x240(TRUE);																	// 320x240ã®è§£åƒåº¦ã«ã™ã‚‹
+	SetWaitVSyncFlag(FALSE);																	// å‚ç›´åŒæœŸä¿¡å·ã‚’å¾…ãŸãªã„
+	FrameStartTime = GetNowCount();																// é–‹å§‹æ™‚é–“ã‚’è¨­å®š
+	SRand((unsigned)time(NULL));																// ä¹±æ•°ã‚·ãƒ¼ãƒ‰
 }
 
 
 void DynamicConfig()
 {
-	// ‰æ–Êƒ‚[ƒh•ÏX
+	// ç”»é¢ãƒ¢ãƒ¼ãƒ‰å¤‰æ›´
 	if (Keyboard_Get(KEY_INPUT_F5) == 1)		ChangeWindowMode(isFullSc = !isFullSc);
 
-	// ƒƒCƒ“ƒ‹[ƒv‚ğ”²‚¯‚é
+	// ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—ã‚’æŠœã‘ã‚‹
 	if (Keyboard_Get(KEY_INPUT_ESCAPE) == 1)	isPlay = false;
 }
 // EOF
